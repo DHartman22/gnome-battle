@@ -8,13 +8,13 @@ public class PlayerInput
     public bool isKeyboard = false;
     [SerializeField] Gamepad pad;
 
-    PlayerInput(Gamepad pad)
+    public PlayerInput(Gamepad pad)
     {
         isKeyboard = false;
         this.pad = pad;
     }
 
-    PlayerInput(Keyboard kb)
+    public PlayerInput(Keyboard kb)
     {
         isKeyboard = true;
         pad = null;
@@ -26,5 +26,13 @@ public class PlayerInput
             return "Keyboard";
         else
             return pad.name;
+    }
+
+    public int GetDeviceID()
+    {
+        if (isKeyboard)
+            return Keyboard.current.deviceId;
+        else
+            return pad.deviceId;
     }
 }

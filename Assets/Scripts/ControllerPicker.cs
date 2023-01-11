@@ -6,7 +6,7 @@ public class ControllerPicker : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    // Poll every controller for button presses, assign players when a button is pressed
+    // Poll every controller for button presses, assign players to InputManager when the south button/space is pressed
     [SerializeField] GameObject playerSlot1;
 
     void PollForInput()
@@ -14,14 +14,16 @@ public class ControllerPicker : MonoBehaviour
         foreach(Gamepad pad in Gamepad.all)
         {
             if(pad.buttonSouth.wasPressedThisFrame)
-            {
-
-            }
-            else if(Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-
-            }
+                 InputManager.instance.AddPlayerAttempt(new PlayerInput(pad));
+            if (pad.buttonNorth.wasPressedThisFrame)
+                InputManager.instance.RemovePlayerAttempt(pad.deviceId);
         }
+        // Needs to be separate, if no controllers are connected then this would never run
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            InputManager.instance.AddPlayerAttempt(new PlayerInput(Keyboard.current));
+        if(Keyboard.current.shiftKey.wasPressedThisFrame)
+            InputManager.instance.RemovePlayerAttempt(Keyboard.current.deviceId);
+
     }
 
     void Start()
@@ -32,6 +34,6 @@ public class ControllerPicker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        PollForInput();
     }
 }
