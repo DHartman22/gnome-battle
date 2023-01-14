@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
     // Contains and manages PlayerInput objects
 
     static public InputManager instance = null;
-
+    [SerializeField] GameObject slots;
     private void Awake()
     {
         if (instance != null)
@@ -32,7 +32,19 @@ public class InputManager : MonoBehaviour
     [SerializeField] public Dictionary<int, PlayerInput> inputList;
     public int maxPlayers = 4;
     public int currentPlayers = 0;
-    
+
+    public bool activated;
+    public void Activate()
+    {
+        slots.SetActive(true);
+        activated = true;
+    }
+
+    public void Deactivate()
+    {
+        slots.SetActive(false);
+        activated = false;  
+    }
 
     public bool AddPlayerAttempt(PlayerInput newInput)
     {
@@ -89,7 +101,7 @@ public class InputManager : MonoBehaviour
         int i = 0;
         foreach(KeyValuePair<int, PlayerInput> input in inputList)
         {
-            Debug.Log(i + ":" + input.Value.GetGamepadName());
+            Debug.Log((input.Key+1) + ":" + input.Value.GetGamepadName());
             i++;
         }
         
@@ -113,6 +125,23 @@ public class InputManager : MonoBehaviour
         return inputList[(int)id];
     }
 
+    void PollForInput()
+    {
+        foreach (Gamepad pad in Gamepad.all)
+        {
+            if (pad.buttonSouth.wasPressedThisFrame)
+                InputManager.instance.AddPlayerAttempt(new PlayerInput(pad));
+            if (pad.buttonNorth.wasPressedThisFrame)
+                InputManager.instance.RemovePlayerAttempt(pad.deviceId);
+        }
+        // Needs to be separate, if no controllers are connected then this would never run
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            InputManager.instance.AddPlayerAttempt(new PlayerInput(Keyboard.current));
+        if (Keyboard.current.shiftKey.wasPressedThisFrame)
+            InputManager.instance.RemovePlayerAttempt(Keyboard.current.deviceId);
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -127,5 +156,6 @@ public class InputManager : MonoBehaviour
             DebugPrintInputList();
         }
         CheckForDisconnects();
+        PollForInput();
     }
 }
