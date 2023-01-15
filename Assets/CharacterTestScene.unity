@@ -536,6 +536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517113526}
   - component: {fileID: 517113527}
+  - component: {fileID: 517113528}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -590,6 +591,26 @@ MonoBehaviour:
   headFrameObject: {fileID: 457278773}
   EyebrowObject: {fileID: 944050000}
   EyesObject: {fileID: 434058832}
+--- !u!95 &517113528
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517113525}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b4433fda3f313214984edaa58dfa5127, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &542818641
 GameObject:
   m_ObjectHideFlags: 0
