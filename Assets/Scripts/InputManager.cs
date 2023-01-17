@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public enum PlayerId
 {
+    PLAYER_NULL = -1,
     PLAYER_1 = 0,
     PLAYER_2 = 1,
     PLAYER_3 = 2,
@@ -146,6 +147,7 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         inputList = new Dictionary<int, PlayerInput>();
+        Deactivate();
     }
 
     // Update is called once per frame
@@ -154,6 +156,10 @@ public class InputManager : MonoBehaviour
         if(Keyboard.current.qKey.wasPressedThisFrame)
         {
             DebugPrintInputList();
+            if(!activated)
+                Activate();
+            else
+                Deactivate();
         }
         CheckForDisconnects();
         PollForInput();
